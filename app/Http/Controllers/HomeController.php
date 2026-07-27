@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\InstallationCard;
+use App\Models\ServiceCard;
 
 class HomeController extends Controller
 {
@@ -13,6 +15,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $installationCards = InstallationCard::active()->get();
+        $serviceCards = ServiceCard::active()->get();
+
+        return view('home', compact('installationCards', 'serviceCards'));
     }
 }
+

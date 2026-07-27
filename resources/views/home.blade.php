@@ -138,81 +138,53 @@
 
             <div class="ac-carousel-track-container overflow-hidden">
                 <div class="ac-carousel-track d-flex" id="acCarouselTrack">
-                    
-                    <!-- Card 1: Daikin -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/daikin1.jpg") }}", "{{ asset("images/install_aircondi/daikin2.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/daikin1.jpg') }}" class="ac-card-img img-fluid" alt="Daikin Sensira">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Daikin</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Daikin Sensira FTXF35D</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Энергоэффективный инверторный кондиционер с фильтром Titanium Apatite и минимальным уровнем шума 20 дБ.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 690 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal" 
-                                            data-model="Daikin Sensira FTXF35D"
-                                            data-price="от 690 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Card 2: Bosch -->
+                    @foreach($installationCards as $card)
                     <div class="ac-card-wrapper">
                         <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/bosh1.jpg") }}", "{{ asset("images/install_aircondi/bosh2.jpg") }}", "{{ asset("images/install_aircondi/bosh3.jpg") }}", "{{ asset("images/install_aircondi/bosh4.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/bosh1.jpg') }}" class="ac-card-img img-fluid" alt="Bosch Climate 3000i">
+                            <div class="ac-card-img-slider position-relative"
+                                 data-photos='{{ json_encode(array_map(fn($p) => asset($p), $card->photos ?? [])) }}'>
+                                <img src="{{ asset($card->first_photo ?? '') }}"
+                                     class="ac-card-img img-fluid"
+                                     alt="{{ $card->title }}">
                                 <div class="ac-img-nav">
                                     <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
                                     <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
                                 </div>
                                 <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
+                                    @foreach($card->photos ?? [] as $i => $photo)
+                                        <span class="dot {{ $i === 0 ? 'active' : '' }}"></span>
+                                    @endforeach
                                 </div>
-                                <span class="badge ac-badge-brand">Bosch</span>
+                                <span class="badge ac-badge-brand">{{ $card->brand }}</span>
                             </div>
                             <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Bosch Climate 3000i</h4>
+                                <h4 class="ac-card-title mb-2">{{ $card->title }}</h4>
                                 <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A++</span>
+                                    <span class="badge ac-spec-pill">
+                                        <i class="bi-lightning-charge-fill me-1"></i>{{ $card->power_kw }}
+                                    </span>
+                                    <span class="badge ac-spec-pill">
+                                        <i class="bi-aspect-ratio-fill me-1"></i>до {{ $card->area_m2 }}
+                                    </span>
+                                    <span class="badge ac-spec-pill">
+                                        <i class="bi-shield-check me-1"></i>{{ $card->energy_class }}
+                                    </span>
                                 </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Немецкое качество, ионизатор воздуха HD-фильтр, модуль Wi-Fi и интеллектуальная функция Follow Me.</p>
+                                <p class="ac-card-desc flex-grow-1 mb-3">{{ $card->description }}</p>
                                 <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
                                     <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 640 €</span>
+                                        <span class="ac-price-label text-muted small d-block">
+                                            {{ __($card->price_label) }}
+                                        </span>
+                                        <span class="ac-price-value fs-4 fw-bold">
+                                            {{ __('от') }} {{ $card->price }}
+                                        </span>
                                     </div>
                                     <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Bosch Climate 3000i 3.5 kW"
-                                            data-price="от 640 €"
-                                            data-power="3.5 кВт (до 35 м²)"
+                                            data-model="{{ $card->title }}"
+                                            data-price="{{ __('от') }} {{ $card->price }}"
+                                            data-power="{{ $card->power_kw }} (до {{ $card->area_m2 }})"
                                             style="color: #000;">
                                         {{ __('Заказать установку') }}
                                     </button>
@@ -220,251 +192,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 3: LG Dualcool -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/lg1.jpg") }}", "{{ asset("images/install_aircondi/lg2.jpg") }}", "{{ asset("images/install_aircondi/lg3.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/lg1.jpg') }}" class="ac-card-img img-fluid" alt="LG Dualcool">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">LG</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">LG Dualcool Inverter</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Технология Dual Inverter с быстрой заморозкой и экономией энергии до 70%, супертихий режим 19 дБ.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 620 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="LG Dualcool Inverter S12ET"
-                                            data-price="от 620 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Samsung WindFree -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/samsung1.jpg") }}", "{{ asset("images/install_aircondi/samsung2.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/samsung1.jpg') }}" class="ac-card-img img-fluid" alt="Samsung WindFree">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Samsung</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Samsung WindFree</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Охлаждение без неприятного прямого сквозняка через 23 000 микроотверстий и управление со смартфона.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 710 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Samsung WindFree Comfort"
-                                            data-price="от 710 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 5: Haier Flexis -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/haier1.jpg") }}", "{{ asset("images/install_aircondi/haier2.jpg") }}", "{{ asset("images/install_aircondi/haier3.jpg") }}", "{{ asset("images/install_aircondi/haier4.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/haier1.jpg') }}" class="ac-card-img img-fluid" alt="Haier Flexis">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Haier</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Haier Flexis Matt</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A+++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">УФ-лампа стерилизации воздуха, термолокация присутствия людей, функция заморозки-самоочистки Self-Clean.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 590 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Haier Flexis Matt White"
-                                            data-price="от 590 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 6: Midea -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/midea1.jpg") }}", "{{ asset("images/install_aircondi/midea2.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/midea1.jpg') }}" class="ac-card-img img-fluid" alt="Midea Xtreme Save">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Midea</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Midea Xtreme Save</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A+++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Сверхэкономичное энергопотребление i-Eco, система двойной фильтрации и генератор ионов Air Magic.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 520 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Midea Xtreme Save Pro"
-                                            data-price="от 520 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 7: Mitsubishi -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/mitsubishi1.jpg") }}", "{{ asset("images/install_aircondi/mitsubishi2.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/mitsubishi1.jpg') }}" class="ac-card-img img-fluid" alt="Mitsubishi Electric">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Mitsubishi</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Mitsubishi Electric</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.4 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A++</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Премиальная японская сборка, бесшумная работа (21 дБ) и рекордная долговечность компрессора.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 750 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Mitsubishi Electric MSZ-HR35VF"
-                                            data-price="от 750 €"
-                                            data-power="3.4 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 8: Bauf -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-photos='["{{ asset("images/install_aircondi/bauf1.jpg") }}", "{{ asset("images/install_aircondi/bauf2.jpg") }}", "{{ asset("images/install_aircondi/bauf3.jpg") }}", "{{ asset("images/install_aircondi/bauf4.jpg") }}"]'>
-                                <img src="{{ asset('images/install_aircondi/bauf1.jpg') }}" class="ac-card-img img-fluid" alt="Bauf Eco">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">Bauf</span>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">Bauf Eco Inverter</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge-fill me-1"></i>3.5 кВт</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-aspect-ratio-fill me-1"></i>до 35 м²</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-check me-1"></i>A+</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Надежная доступная сплит-система с компрессором нового поколения, защитным покрытием и турбо-режимом.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Оборудование + монтаж') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 450 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal"
-                                            data-model="Bauf Eco Inverter 12000 BTU"
-                                            data-price="от 450 €"
-                                            data-power="3.5 кВт (до 35 м²)"
-                                            style="color: #000;">
-                                        {{ __('Заказать установку') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -792,41 +520,60 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="ac-carousel-track-container overflow-hidden">
                 <div class="ac-carousel-track d-flex" id="serviceCarouselTrack">
                     
-                    <!-- Card 1: Cleaning & Sanitization -->
+                    @foreach($serviceCards as $card)
+                    @php
+                        $media = [];
+                        if (!empty($card->photos)) {
+                            foreach ($card->photos as $photo) {
+                                $media[] = ['type' => 'image', 'src' => asset($photo)];
+                            }
+                        }
+                        if (!empty($card->video)) {
+                            $media[] = ['type' => 'video', 'src' => asset($card->video)];
+                        }
+                        $mediaCount = count($media);
+                    @endphp
                     <div class="ac-card-wrapper">
                         <div class="ac-card ac-card-white h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-media='[{"type":"image","src":"{{ asset("images/cleaning/cleaning1.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/cleanin2.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/cleaning3.jpg") }}"},{"type":"video","src":"{{ asset("images/cleaning/cleaning1.mp4") }}"}]'>
-                                <img src="{{ asset('images/cleaning/cleaning1.jpg') }}" class="ac-card-img img-fluid" alt="Чистка кондиционеров">
+                            <div class="ac-card-img-slider position-relative" data-media='{{ json_encode($media) }}'>
+                                <img src="{{ asset($card->first_photo ?? '') }}" class="ac-card-img img-fluid" alt="{{ $card->title }}">
                                 <div class="ac-img-nav">
                                     <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
                                     <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
                                 </div>
                                 <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
+                                    @for($i = 0; $i < $mediaCount; $i++)
+                                        <span class="dot {{ $i === 0 ? 'active' : '' }}"></span>
+                                    @endfor
                                 </div>
-                                <span class="badge ac-badge-brand">{{ __('Чистка') }}</span>
+                                <span class="badge ac-badge-brand">{{ $card->badge }}</span>
+                                @if(!empty($card->video))
                                 <button type="button" class="badge ac-media-badge ac-play-video-btn"><i class="bi-play-circle-fill me-1"></i>Видео</button>
+                                @endif
                             </div>
                             <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">{{ __('Чистка и дезинфекция кондиционера') }}</h4>
+                                <h4 class="ac-card-title mb-2">{{ $card->title }}</h4>
                                 <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-clock-fill me-1"></i>1 - 1.5 часа</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-fill-check me-1"></i>Антибактериальная</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-droplet-fill me-1"></i>Пром под давлением</span>
+                                    @if($card->spec_1)
+                                        <span class="badge ac-spec-pill"><i class="bi-check-circle-fill me-1"></i>{{ $card->spec_1 }}</span>
+                                    @endif
+                                    @if($card->spec_2)
+                                        <span class="badge ac-spec-pill"><i class="bi-check-circle-fill me-1"></i>{{ $card->spec_2 }}</span>
+                                    @endif
+                                    @if($card->spec_3)
+                                        <span class="badge ac-spec-pill"><i class="bi-check-circle-fill me-1"></i>{{ $card->spec_3 }}</span>
+                                    @endif
                                 </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Глубокая очистка внутреннего и наружного блоков, дезинфекция паром, промывка теплообменников и обработка фильтров.</p>
+                                <p class="ac-card-desc flex-grow-1 mb-3">{{ $card->description }}</p>
                                 <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
                                     <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Стоимость услуги') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 60 €</span>
+                                        <span class="ac-price-label text-muted small d-block">{{ __($card->price_label) }}</span>
+                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} {{ $card->price }}</span>
                                     </div>
                                     <button class="btn custom-btn w-100 open-order-modal" 
-                                            data-model="Чистка и дезинфекция кондиционера"
-                                            data-price="от 60 €"
-                                            data-power="Глубокая чистка 2 блоков + пара"
+                                            data-model="{{ $card->title }}"
+                                            data-price="{{ __('от') }} {{ $card->price }}"
+                                            data-power=""
                                             style="color: #000;">
                                         {{ __('Заказать обслуживание') }}
                                     </button>
@@ -834,133 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 2: Freon Refill -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card ac-card-white h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-media='[{"type":"image","src":"{{ asset("images/cleaning/load_freon1.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/load_freon2.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/load_freon3.jpg") }}"},{"type":"video","src":"{{ asset("images/cleaning/cleaning2.mp4") }}"}]'>
-                                <img src="{{ asset('images/cleaning/load_freon1.jpg') }}" class="ac-card-img img-fluid" alt="Заправка фреоном">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">{{ __('Фреон') }}</span>
-                                <button type="button" class="badge ac-media-badge ac-play-video-btn"><i class="bi-play-circle-fill me-1"></i>Видео</button>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">{{ __('Заправка фреоном R32 / R410A') }}</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-search me-1"></i>Поиск утечек</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-snow me-1"></i>Хладагент R32/R410A</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-speedometer2 me-1"></i>Вакуумирование</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Проверка трассы на герметичность, устранение микроутечек, вакуумирование контура и заправка фреона по весам.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Стоимость услуги') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 75 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal" 
-                                            data-model="Заправка фреоном R32 / R410A"
-                                            data-price="от 75 €"
-                                            data-power="Поиск утечек + Заправка по весам"
-                                            style="color: #000;">
-                                        {{ __('Заказать обслуживание') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Diagnostics & Repair -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card ac-card-white h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-media='[{"type":"image","src":"{{ asset("images/cleaning/cleaning3.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/cleaning1.jpg") }}"},{"type":"video","src":"{{ asset("images/cleaning/cleaning3.mp4") }}"}]'>
-                                <img src="{{ asset('images/cleaning/cleaning3.jpg') }}" class="ac-card-img img-fluid" alt="Диагностика и ремонт">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">{{ __('Ремонт') }}</span>
-                                <button type="button" class="badge ac-media-badge ac-play-video-btn"><i class="bi-play-circle-fill me-1"></i>Видео</button>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">{{ __('Диагностика и ремонт кондиционеров') }}</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-cpu-fill me-1"></i>Компьютерная</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-tools me-1"></i>Срочный выезд</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-check-all me-1"></i>Гарантия</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Компьютерная диагностика платы управления, проверка компрессора, устранение течи дренажа и замена запчастей.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Стоимость услуги') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 50 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal" 
-                                            data-model="Диагностика и ремонт кондиционеров"
-                                            data-price="от 50 €"
-                                            data-power="Диагностика + Устранение неполадок"
-                                            style="color: #000;">
-                                        {{ __('Заказать обслуживание') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Comprehensive Maintenance -->
-                    <div class="ac-card-wrapper">
-                        <div class="ac-card ac-card-white h-100 d-flex flex-column">
-                            <div class="ac-card-img-slider position-relative" data-media='[{"type":"image","src":"{{ asset("images/cleaning/cleanin2.jpg") }}"},{"type":"image","src":"{{ asset("images/cleaning/load_freon1.jpg") }}"},{"type":"video","src":"{{ asset("images/cleaning/clening4.mp4") }}"}]'>
-                                <img src="{{ asset('images/cleaning/cleanin2.jpg') }}" class="ac-card-img img-fluid" alt="Комплексное ТО">
-                                <div class="ac-img-nav">
-                                    <button type="button" class="ac-img-prev"><i class="bi-chevron-left"></i></button>
-                                    <button type="button" class="ac-img-next"><i class="bi-chevron-right"></i></button>
-                                </div>
-                                <div class="ac-img-dots">
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                                <span class="badge ac-badge-brand">{{ __('Комплекс') }}</span>
-                                <button type="button" class="badge ac-media-badge ac-play-video-btn"><i class="bi-play-circle-fill me-1"></i>Видео</button>
-                            </div>
-                            <div class="ac-card-body d-flex flex-column flex-grow-1 p-4">
-                                <h4 class="ac-card-title mb-2">{{ __('Комплексное техническое обслуживание (ТО)') }}</h4>
-                                <div class="ac-specs-pills d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge ac-spec-pill"><i class="bi-star-fill me-1"></i>Все включено</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-shield-lock-fill me-1"></i>Гарантия 12 мес</span>
-                                    <span class="badge ac-spec-pill"><i class="bi-lightning-charge me-1"></i>Проверка 15 точ</span>
-                                </div>
-                                <p class="ac-card-desc flex-grow-1 mb-3">Полный сервис: промывка двух блоков, антибактериальная дезинфекция, замер давления фреона, протяжка контактов.</p>
-                                <div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
-                                    <div class="ac-price-wrap">
-                                        <span class="ac-price-label text-muted small d-block">{{ __('Стоимость услуги') }}</span>
-                                        <span class="ac-price-value fs-4 fw-bold">{{ __('от') }} 110 €</span>
-                                    </div>
-                                    <button class="btn custom-btn w-100 open-order-modal" 
-                                            data-model="Комплексное техническое обслуживание (ТО)"
-                                            data-price="от 110 €"
-                                            data-power="Полный комплекс Все включено"
-                                            style="color: #000;">
-                                        {{ __('Заказать обслуживание') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
