@@ -1,0 +1,16 @@
+=== Unused Frontend Assets Removed ===
+Date: 2026-07-27
+
+IMAGES REMOVED (not referenced in blade templates):
+- public/images/repair_aircondition_1.png
+- public/images/install_aircondition_1.png
+- public/images/favicon.png
+
+JS REMOVED:
+- public/js/jquery.sticky.js
+  (also removed <script> tag from app.blade.php)
+  Note: temporarily restored on user request, then removed again
+  because it broke navbar/background scroll behavior.
+
+NOTE: public/favicon.ico was kept because browsers auto-detect it.
+      public/images/background1.jpg and background2.jpg were kept per user request.
