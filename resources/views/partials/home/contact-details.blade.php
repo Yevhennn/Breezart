@@ -13,5 +13,5 @@
             <a href="https://wa.me/351964446269" target="_blank">{{ __('WhatsApp') }}</a>
         </div>
     </div>
-    <img src="{{ asset('images/WorldMap.svg') }}" class="img-fluid" alt="" style="max-height: 220px; width: 100%; object-fit: contain;">
+    <img src="{{ asset('images/WorldMap.svg') }}" class="img-fluid" alt="{{ __('Service area map') }}" style="max-height: 220px; width: 100%; object-fit: contain;">
 </div>
