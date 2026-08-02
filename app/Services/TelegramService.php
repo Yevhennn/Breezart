@@ -10,13 +10,13 @@ class TelegramService
     /**
      * Send HTML formatted notification to Telegram chat.
      */
-    public static function sendMessage(string $message): bool
+    public function sendMessage(string $message): bool
     {
-        $botToken = env('TELEGRAM_BOT_TOKEN');
-        $chatId = env('TELEGRAM_CHAT_ID');
+        $botToken = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
 
-        if (!$botToken || !$chatId || $botToken === 'your_telegram_bot_token_here') {
-            Log::warning('Telegram notification skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not configured in .env');
+        if (empty($botToken) || empty($chatId) || $botToken === 'your_telegram_bot_token_here') {
+            Log::warning(config('services.telegram.missing_config_message', 'Telegram notification skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not configured in .env'));
             return false;
         }
 
@@ -24,8 +24,8 @@ class TelegramService
             $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
 
             $response = Http::post($url, [
-                'chat_id'    => $chatId,
-                'text'       => $message,
+                'chat_id' => $chatId,
+                'text' => $message,
                 'parse_mode' => 'HTML',
                 'disable_web_page_preview' => true,
             ]);
@@ -37,7 +37,7 @@ class TelegramService
 
             Log::error('Telegram API error response: ' . $response->body());
             return false;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('Telegram notification exception: ' . $e->getMessage());
             return false;
         }

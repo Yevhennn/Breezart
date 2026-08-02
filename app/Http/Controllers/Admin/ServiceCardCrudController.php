@@ -72,18 +72,32 @@ class ServiceCardCrudController extends CrudController
             'name'       => 'photos',
             'label'      => 'Фотографии (Слайдер)',
             'type'       => 'upload_multiple',
-            'upload'     => true,
             'disk'       => 'public',
+            'prefix'     => 'images/cleaning/',
             'hint'       => 'Загрузите одно или несколько фото. Первое фото будет использоваться как главное.',
+            'withFiles'  => [
+                'disk' => 'public',
+                'path' => 'images/cleaning',
+                'fileNamer' => function (\Illuminate\Http\UploadedFile $file) {
+                    return $file->getClientOriginalName();
+                },
+            ],
         ]);
 
         CRUD::field([
             'name'   => 'video',
             'label'  => 'Видео (Опционально)',
             'type'   => 'upload',
-            'upload' => true,
             'disk'   => 'public',
+            'prefix' => 'images/cleaning/',
             'hint'   => 'Если есть видео, оно будет добавлено в конец слайдера. (mp4)',
+            'withFiles'  => [
+                'disk' => 'public',
+                'path' => 'images/cleaning',
+                'fileNamer' => function (\Illuminate\Http\UploadedFile $file) {
+                    return $file->getClientOriginalName();
+                },
+            ],
         ]);
 
         CRUD::field([

@@ -30,4 +30,27 @@
   
   })(window.jQuery);
 
+  (function ($) {
+
+  "use strict";
+
+    $(document).ready(function () {
+      $('.open-order-modal').on('click', function () {
+        var button = $(this);
+        var model = button.data('model') || '';
+        var price = button.data('price') || '';
+        var power = button.data('power') || '';
+        var modalTitle = button.data('modal-title') || '';
+        var subtitle = [price, power].filter(Boolean).join(' · ');
+
+        $('#installationOrderModalLabel').text(modalTitle);
+        $('#modalSelectedModelSubtitle').text(subtitle);
+        $('#modalInputModelName').val(model);
+        $('#modalInputPrice').val(price);
+        $('#modalInputPowerArea').val(power);
+      });
+    });
+
+  })(window.jQuery);
+
 
