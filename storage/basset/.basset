@@ -268,5 +268,47 @@
         "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/skins/fuzzy-background.css",
         "asset_disk_path": "basset/vendor/backpack/theme-tabler/resources/assets/css/skins/fuzzy-background.css",
         "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/style.css": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/style.css",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/style.css",
+        "asset_disk_path": "basset/vendor/backpack/theme-tabler/resources/assets/css/style.css",
+        "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/color-adjustments.css": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/color-adjustments.css",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/css/color-adjustments.css",
+        "asset_disk_path": "basset/vendor/backpack/theme-tabler/resources/assets/css/color-adjustments.css",
+        "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/css/common.css": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/css/common.css",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/css/common.css",
+        "asset_disk_path": "basset/vendor/backpack/crud/src/resources/assets/css/common.css",
+        "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/js/common.js": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/js/common.js",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/js/common.js",
+        "asset_disk_path": "basset/vendor/backpack/crud/src/resources/assets/js/common.js",
+        "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/js/tabler.js": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/js/tabler.js",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/theme-tabler/resources/assets/js/tabler.js",
+        "asset_disk_path": "basset/vendor/backpack/theme-tabler/resources/assets/js/tabler.js",
+        "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/aa271ce53b6effcfe2ea8dfd215dbcbdb587c8a30c1c05ffb6d40fad3621f4ec.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/aa271ce53b6effcfe2ea8dfd215dbcbdb587c8a30c1c05ffb6d40fad3621f4ec.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/aa271ce53b6effcfe2ea8dfd215dbcbdb587c8a30c1c05ffb6d40fad3621f4ec.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/aa271ce53b6effcfe2ea8dfd215dbcbdb587c8a30c1c05ffb6d40fad3621f4ec.jpg",
+        "asset_attributes": []
+    },
+    "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/img/spinner.svg": {
+        "asset_name": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/img/spinner.svg",
+        "asset_path": "C:\\OSPnew\\home\\aircondi\\vendor/backpack/crud/src/resources/assets/img/spinner.svg",
+        "asset_disk_path": "basset/vendor/backpack/crud/src/resources/assets/img/spinner.svg",
+        "asset_attributes": []
     }
 }
