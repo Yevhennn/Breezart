@@ -77,8 +77,9 @@
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="section-bg-image-block">
-                    <form action="mailto:breezartclima@gmail.com" method="post" class="custom-form contact-form mt-lg-4 mt-2" role="form">
+                    <form action="{{ route('contact.message') }}" method="post" class="custom-form contact-form mt-lg-4 mt-2 ajax-contact-form" role="form">
                         @csrf
+                        <div class="contact-alert-container mb-3"></div>
                         <h2 class="mb-4 pb-2">{{ __('Write to us') }}</h2>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
@@ -496,6 +497,65 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // 5. AJAX FORM SUBMISSION FOR CONTACT FORMS
+    const contactForms = document.querySelectorAll('.ajax-contact-form');
+    contactForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const alertContainer = this.querySelector('.contact-alert-container');
+            const originalBtnText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Отправка...';
+            alertContainer.innerHTML = '';
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': formData.get('_token') || document.querySelector('meta[name="csrf-token"]')?.content
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+
+                if (data.success) {
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-success border-0 shadow-sm rounded-3 py-2">
+                            <i class="bi-check-circle-fill me-2"></i>${data.message}
+                        </div>
+                    `;
+                    form.reset();
+                    setTimeout(() => alertContainer.innerHTML = '', 5000);
+                } else {
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-danger border-0 shadow-sm rounded-3 py-2">
+                            <i class="bi-exclamation-triangle-fill me-2"></i>Произошла ошибка при отправке заявки.
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+                alertContainer.innerHTML = `
+                    <div class="alert alert-success border-0 shadow-sm rounded-3 py-2">
+                        <i class="bi-check-circle-fill me-2"></i>Спасибо! Ваша заявка успешно отправлена.
+                    </div>
+                `;
+                form.reset();
+                setTimeout(() => alertContainer.innerHTML = '', 5000);
+            });
+        });
+    });
 });
 </script>
 
@@ -595,9 +655,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Form -->
             <div class="col-lg-5 col-12">
-                <form action="#" method="post" class="custom-form contact-form" role="form">
+                <form action="{{ route('contact.message') }}" method="post" class="custom-form contact-form ajax-contact-form" role="form">
                     @csrf
                     <h2 class="mb-3 pb-0">{{ __('Write to us') }}</h2>
+                    <div class="contact-alert-container mb-3"></div>
 
                     <div class="row g-2">
                         <div class="col-lg-6 col-md-6 col-12">
