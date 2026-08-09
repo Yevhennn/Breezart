@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\InstallationCard;
-use App\Models\ServiceCard;
+use App\Services\HomePageDataService;
 
 class HomeController extends Controller
 {
+    public function __construct(protected HomePageDataService $homePageDataService)
+    {
+    }
     /**
      * Show the application landing page.
      *
@@ -15,10 +16,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $installationCards = InstallationCard::active()->get();
-        $serviceCards = ServiceCard::active()->get();
+        $data = $this->homePageDataService->getData();
 
-        return view('home', compact('installationCards', 'serviceCards'));
+        return view('home', $data);
     }
 }
 

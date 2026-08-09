@@ -75,9 +75,16 @@ class InstallationCardCrudController extends CrudController
             'name'       => 'photos',
             'label'      => 'Фотографии',
             'type'       => 'upload_multiple',
-            'upload'     => true,
             'disk'       => 'public',
+            'prefix'     => 'images/install_aircondi/',
             'hint'       => 'Загрузите одно или несколько фото. Первое фото будет использоваться как превью.',
+            'withFiles'  => [
+                'disk' => 'public',
+                'path' => 'images/install_aircondi',
+                'fileNamer' => function (\Illuminate\Http\UploadedFile $file) {
+                    return $file->getClientOriginalName();
+                },
+            ],
         ]);
 
         CRUD::field([

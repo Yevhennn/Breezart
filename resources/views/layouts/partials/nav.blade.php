@@ -1,13 +1,13 @@
 @php
-    $isHome = request()->routeIs('home') || request()->is('/');
+$isHome = request()->routeIs('home') || request()->is('/');
 @endphp
 
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('images/logo.png') }}" class="navbar-brand-image img-fluid" alt="Breezart Service">
+            <img src="{{ asset('images/logo.png') }}" class="navbar-brand-image img-fluid" alt="Breezart Clima  Service">
             <span class="navbar-brand-text">
-                {{ __('Breezart') }}
+                {{ __('Breezart Clima ') }}
                 <small>{{ __('AC Service') }}</small>
             </span>
         </a>

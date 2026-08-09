@@ -1,0 +1,21 @@
+<div class="ac-card-footer border-top pt-3 mt-auto d-flex flex-column gap-3">
+    <div class="ac-price-wrap">
+        <span class="ac-price-label text-muted small d-block">
+            {{ __($card->price_label) }}
+        </span>
+        <span class="ac-price-value fs-4 fw-bold">
+            {{ __('от') }} {{ $card->price }}
+        </span>
+    </div>
+    <button class="btn custom-btn w-100 open-order-modal"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#installationOrderModal"
+        data-model="{{ $card->title }}"
+        data-price="{{ __('от') }} {{ $card->price }}"
+        data-power="{{ $card->power_kw }} ({{ __('до') }} {{ $card->area_m2 }})"
+        data-modal-title="{{ __('Заявка на установку') }}"
+        style="color: #000;">
+        {{ __('Заказать установку') }}
+    </button>
+</div>
