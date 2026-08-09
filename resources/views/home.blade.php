@@ -649,4 +649,8 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </section>
+
+<!-- Include Chatbot Widget -->
+@include('partials.chatbot')
+
 @endsection
