@@ -45,11 +45,11 @@
                     const data = await response.json();
                     appendMessage(data.message, 'bot-message');
                 } else {
-                    appendMessage('Произошла ошибка связи с сервером. Попробуйте еще раз или напишите в WhatsApp.', 'bot-message');
+                    appendMessage(@json(__('A server connection error occurred. Please try again or write on WhatsApp.')), 'bot-message');
                 }
             } catch (error) {
                 removeTyping(typingId);
-                appendMessage('Ошибка подключения. Проверьте интернет соединение.', 'bot-message');
+                appendMessage(@json(__('Connection error. Check your internet connection.')), 'bot-message');
             } finally {
                 sendBtn.disabled = false;
                 inputEl.focus();

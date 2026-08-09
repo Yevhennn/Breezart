@@ -101,7 +101,7 @@
                             currentEl.src = item.src;
                             currentEl.play();
                         }
-                        if (mediaBadge) mediaBadge.innerHTML = '<i class="bi-play-circle-fill me-1"></i>Видео';
+                        if (mediaBadge) mediaBadge.innerHTML = '<i class="bi-play-circle-fill me-1"></i>{{ __('Видео') }}';
                     } else {
                         if (!currentEl || !currentEl.classList.contains('ac-card-img')) {
                             const imgEl = document.createElement('img');
@@ -113,7 +113,7 @@
                         } else {
                             currentEl.src = item.src;
                         }
-                        if (mediaBadge) mediaBadge.innerHTML = '<i class="bi-image-fill me-1"></i>Фото';
+                        if (mediaBadge) mediaBadge.innerHTML = '<i class="bi-image-fill me-1"></i>{{ __('Фото') }}';
                     }
 
                     const updatedEl = slider.querySelector('.ac-card-img, .ac-card-video');
